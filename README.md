@@ -24,6 +24,13 @@ O **Eye Keyboard** é um teclado virtual inovador que permite aos usuários cont
 
 [![Link para o Repositório](https://img.shields.io/badge/GitHub-Eye%20Keyboard-green)](https://github.com/EvelynLopesSS/Eye_Keyboard.git)
 
+## Inspiração
+
+Este projeto foi inspirado pelos seguintes trabalhos:
+
+- [![Link para o Repositório](https://img.shields.io/badge/GitHub-Neural%20Keyboard-blue)](https://github.com/R4j4n/Neural-Keyboard.git) por R4j4n.
+- [![Link para o Canal no YouTube](https://img.shields.io/badge/YouTube-PlayList-red)](https://youtube.com/playlist?list=PL6Yc5OUgcoTlvHb5OfFLUJ90ofBuoU5g8&si=5g7W76NrTYZML-CJ) por [Playlist do canal da Pysource].
+- 
 ## Instruções de Uso
 
 1. Clone o repositório.
