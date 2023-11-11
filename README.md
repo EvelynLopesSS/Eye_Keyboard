@@ -22,7 +22,7 @@ O **Eye Keyboard** é um teclado virtual inovador que permite aos usuários cont
 
 ## Modelo Treinado
 
-O modelo treinado `shape_predictor_landmarks.dat` pode ser baixado [aqui](https://huggingface.co/Abhinowww/ShapePredictor/tree/main).
+O modelo treinado `shape_predictor_landmarks.dat` pode ser baixado no `https://huggingface.co`:
 
 [![Badge Modelo Treinado](https://img.shields.io/badge/Modelo%20Treinado-shape__predictor__landmarks-blueviolet)](https://huggingface.co/Abhinowww/ShapePredictor/tree/main)
   
