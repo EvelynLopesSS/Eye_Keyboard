@@ -4,7 +4,7 @@ O **Eye Keyboard** é um teclado virtual inovador que permite aos usuários cont
 
 ## Principais Características
 
-- **Controle por Movimentos dos Olhos:** 🚀 Os usuários podem selecionar teclas movendo os olhos na direção desejada.
+- **Controle por Movimentos dos Olhos:** 😶 Os usuários podem selecionar teclas movendo os olhos na direção desejada.
   
 - **Piscar para Digitar:** 😉 Reconhecimento de piscadas como ação para selecionar teclas, simulando a digitação.
   
@@ -14,7 +14,7 @@ O **Eye Keyboard** é um teclado virtual inovador que permite aos usuários cont
 
 - **OpenCV:** 📷 Biblioteca para processamento de visão computacional.
   
-- **dlib:** 👤 Biblioteca para detecção facial e rastreamento de pontos faciais.
+- **dlib:** 👤 Biblioteca para detecção facial e rastreamento de pontos faciais. 
   
 - **pyglet:** 🎶 Utilizado para reprodução de sons.
   
