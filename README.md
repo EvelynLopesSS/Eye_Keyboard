@@ -20,7 +20,14 @@ O **Eye Keyboard** é um teclado virtual inovador que permite aos usuários cont
   
 - **pyttsx3:** 🗣️ Utilizado para síntese de fala.
 
-## Repositório GitHub
+## Modelo Treinado
+
+O modelo treinado `shape_predictor_landmarks.dat` pode ser baixado [aqui](https://huggingface.co/Abhinowww/ShapePredictor/tree/main).
+
+[![Badge Modelo Treinado](https://img.shields.io/badge/Modelo%20Treinado-shape__predictor__landmarks-blueviolet)](https://huggingface.co/Abhinowww/ShapePredictor/tree/main)
+  
+
+## Meu Repositório GitHub
 
 [![Link para o Repositório](https://img.shields.io/badge/GitHub-Eye%20Keyboard-green)](https://github.com/EvelynLopesSS/Eye_Keyboard.git)
 
