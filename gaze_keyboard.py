@@ -170,7 +170,6 @@ while True:
     keyboard[:] = (0, 0, 0)
     frames += 1
 
-    # Mostrar a direção da gaze
     new_frame = np.zeros((500, 500, 3), np.uint8)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
