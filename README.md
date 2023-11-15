@@ -26,7 +26,7 @@ O modelo treinado `shape_predictor_landmarks.dat` pode ser baixado no `https://h
 
 [![Badge Modelo Treinado](https://img.shields.io/badge/Modelo%20Treinado-shape__predictor__landmarks-blueviolet)](https://huggingface.co/Abhinowww/ShapePredictor/tree/main)
 
-##🎥 Assista ao vídeo para ver o teclado em ação: 
+## 🎥 Assista ao vídeo para ver o teclado em ação: 
 [Assista ao Vídeo](https://www.canva.com/design/DAF0RcH7JHc/mbTB77izjuEych3RTOr8xg/watch?utm_content=DAF0RcH7JHc&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
 ## Meu Repositório GitHub
