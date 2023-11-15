@@ -68,7 +68,7 @@ def letter(letter_index, text, letter_light):
         key = np.zeros((key_height, key_width, 3), np.uint8)
         key[:] = (138, 154, 91)
 
-    # Configurações do texto
+    
     font = cv2.FONT_HERSHEY_PLAIN
     font_scale = 2
     font_th = 2
@@ -119,7 +119,7 @@ def get_gaze_ratio(eye_points, facial_landmarks):
         (landmarks.part(41).x, landmarks.part(41).y)
     ], np.int32)
 
-    # Desenhar a linha vermelha contornando o limiar do olho direito
+    
     cv2.polylines(frame, [right_eye_region], isClosed=True, color=(0, 0, 255), thickness=2)
     height, width, _ = frame.shape
     mask = np.zeros((height, width), np.uint8)
@@ -141,7 +141,7 @@ def get_gaze_ratio(eye_points, facial_landmarks):
     right_side_threshold_eye = threshold_eye[0: height, int(width / 2): width]
     right_side_white = cv2.countNonZero(right_side_threshold_eye)
 
-  
+    #cv2.imshow(' Limite Direito', right_side_threshold_eye)
 
     if left_side_white == 0:
         gaze_ratio = 1
@@ -162,7 +162,9 @@ keyboard_selected = "Esquerda"
 last_keyboard_selected = 'Esquerda'
 space_added = False
 text_spoken = False
-cursor_position = 0
+apagar_sound_playing = False
+falar_sound_playing = False
+
 while True:
     _, frame = cap.read()
     keyboard[:] = (0, 0, 0)
@@ -173,30 +175,44 @@ while True:
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     active_letter = keys_set_1[letter_index]
- 
-    if active_letter == "----":
+   
+    if active_letter == "----" and not space_added:
         text += ' '
         tecla.play()
+        space_added = True
+    elif active_letter != "----":
+        space_added = False
     if active_letter == "Apagar":
         cv2.putText(keyboard, 'Apagar', (webcam_x - 300, webcam_y + 80), font, 4, (0, 0, 255), thickness=3)
-        # Verificar se há letras para apagar
-        if cursor_position > 0 and len(text) > 0:
-            text = text[:cursor_position - 1] + text[cursor_position:]  # Remover a letra na posição do cursor
-            cursor_position -= 1  # Atualizar a posição do cursor
-            apagar.play()  # Tocar o som de apagar
-            time.sleep(0.5)  
-    if active_letter == "Falar" and not text_spoken:
-        # Falar o texto digitado na caixa de texto
-        if text:
-            speech_engine.say(text)
-            speech_engine.runAndWait()
-            text_spoken = True  
+        
+        if text and blinking_frames == 5: 
+            text = text[:-1]
+            if not apagar_sound_playing:
+                apagar.play()
+                apagar_sound_playing = True
     else:
+        apagar_sound_playing = False
+    if active_letter == "Falar" and not text_spoken and blinking_frames == 5: 
+        
+        if text:
+            if not falar_sound_playing:
+                speech_engine.say(text)
+                speech_engine.runAndWait()
+                text_spoken = True 
+                falar_sound_playing = True
+
+    else:
+        falar_sound_playing = False
         faces = detector(gray)
         for face in faces:
- 
+            # x, y = face.left(), face.top()
+            # x1, y1 = face.right(), face.bottom()
+            # cv2.rectangle(frame, (x, y), (x1, y1), (0, 255, 0), 2)
             landmarks = predictor(gray, face)
-    
+            # x = landmarks.part(36).x
+            # y = landmarks.part(36).y
+            # cv2.circle(frame, (x, y), 3, (0, 0, 255), 2)
+            
             left_eye_ratio = get_blinking_ratio([36, 37, 38, 39, 40, 41], landmarks)
             right_eye_ratio = get_blinking_ratio([42, 43, 44, 45, 46, 47], landmarks)
 
@@ -208,12 +224,22 @@ while True:
 
                 # Digitar letra
                 if blinking_frames == 5:
-                    text += active_letter
-                    tecla.play()
-                    time.sleep(0.2)
+                    if active_letter not in ["Apagar", "Falar", "----"]:
+                        text += active_letter
+                        tecla.play()
+                        time.sleep(0.2)
             else:
                 blinking_frames = 0
-   
+
+           
+            if right_eye_ratio > 8.5:
+                cv2.putText(keyboard, 'Apagar', (webcam_x - 300, webcam_y + 80), font, 4, (0, 0, 255), thickness=3)
+                
+                if text:
+                    text = text[:-1]
+                    apagar.play()  
+                    time.sleep(1)
+
 
             gaze_ratio_left_eye = get_gaze_ratio([36, 37, 38, 39, 40, 41], landmarks)
             gaze_ratio_right_eye = get_gaze_ratio([42, 43, 44, 45, 46, 47], landmarks)
@@ -273,10 +299,18 @@ while True:
     # Posicionar a imagem da webcam no teclado
     keyboard[webcam_y:webcam_y + webcam_height, webcam_x:webcam_x + webcam_width] = webcam
 
-  
+    #cv2.imshow('Frame', frame)
     cv2.imshow('Teclado Virtual', keyboard)
 
-
+    # cv2.putText(frame, str(right_side_white), (50, 150), font, 2, (0, 0, 255), 3)
+    # threshold_eye = cv2.resize(threshold_eye, None, fx=5, fy=5)
+    # eye = cv2.resize(gray_eye, None, fx=5, fy=5)
+    # cv2.imshow('Olho', eye)
+    # cv2.imshow('Limite', threshold_eye)
+    # #cv2.imshow('Mask', mask)
+    # # cv2.imshow('Olho Esquerdo ', left_eye)
+    # cv2.imshow(' Limite Esquerdo', left_side_threshold_eye)
+    # cv2.imshow(' Limite Direito', right_side_threshold_eye)
 
     key = cv2.waitKey(1)
     if key == 27:
