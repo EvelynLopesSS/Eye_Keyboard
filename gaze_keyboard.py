@@ -6,8 +6,10 @@ import pyglet
 import time
 import pyttsx3
 
+# Fala
 speech_engine = pyttsx3.init()
 speech_engine.setProperty('voice', 'pt-br')
+
 # Sons
 tecla = pyglet.media.load("tecla.aac", streaming=False)
 esquerda = pyglet.media.load("esquerda.aac", streaming=False)
@@ -88,7 +90,7 @@ def midpont(p1, p2):
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-
+# Piscar
 def get_blinking_ratio(eye_points, facial_landmarks):
     left_point = (facial_landmarks.part(eye_points[0]).x, facial_landmarks.part(eye_points[0]).y)
     right_point = (facial_landmarks.part(eye_points[3]).x, facial_landmarks.part(eye_points[3]).y)
@@ -101,7 +103,7 @@ def get_blinking_ratio(eye_points, facial_landmarks):
     ratio = hor_line_lenght / ver_line_lenght
     return ratio
 
-
+# Direção do olhar
 def get_gaze_ratio(eye_points, facial_landmarks):
     left_eye_region = np.array([(facial_landmarks.part(eye_points[0]).x, facial_landmarks.part(eye_points[0]).y),
                                 (facial_landmarks.part(eye_points[1]).x, facial_landmarks.part(eye_points[1]).y),
@@ -153,7 +155,7 @@ def get_gaze_ratio(eye_points, facial_landmarks):
     return gaze_ratio
 
 
-
+# Variáveis de funcionamento 
 frames = 0
 letter_index = 0
 blinking_frames = 0
@@ -165,6 +167,7 @@ text_spoken = False
 apagar_sound_playing = False
 falar_sound_playing = False
 
+# Loop para os frames da câmera
 while True:
     _, frame = cap.read()
     keyboard[:] = (0, 0, 0)
@@ -175,12 +178,6 @@ while True:
 
     active_letter = keys_set_1[letter_index]
    
-    if active_letter == "----" and not space_added:
-        text += ' '
-        tecla.play()
-        space_added = True
-    elif active_letter != "----":
-        space_added = False
     if active_letter == "Apagar":
         cv2.putText(keyboard, 'Apagar', (webcam_x - 300, webcam_y + 80), font, 4, (0, 0, 255), thickness=3)
         
@@ -214,8 +211,10 @@ while True:
             
             left_eye_ratio = get_blinking_ratio([36, 37, 38, 39, 40, 41], landmarks)
             right_eye_ratio = get_blinking_ratio([42, 43, 44, 45, 46, 47], landmarks)
-
+            
+            # Média da ratio de piscar
             blinking_ratio = (left_eye_ratio + right_eye_ratio) / 2
+            
             if blinking_ratio > 4.8:
                 cv2.putText(keyboard, 'PISCAR', (webcam_x + 500, webcam_y + 80), font, 4, (255, 0, 0), thickness=3)
                 blinking_frames += 1
@@ -223,14 +222,19 @@ while True:
 
                 # Digitar letra
                 if blinking_frames == 5:
+                        if active_letter == "----" and not space_added:
+                            text += ' '
+                            tecla.play()
+                            space_added = True
+                        elif active_letter != "----":
+                            space_added = False
                     if active_letter not in ["Apagar", "Falar", "----"]:
                         text += active_letter
                         tecla.play()
                         time.sleep(0.2)
             else:
                 blinking_frames = 0
-
-           
+ 
             if right_eye_ratio > 8.5:
                 cv2.putText(keyboard, 'Apagar', (webcam_x - 300, webcam_y + 80), font, 4, (0, 0, 255), thickness=3)
                 
@@ -243,6 +247,7 @@ while True:
             gaze_ratio_left_eye = get_gaze_ratio([36, 37, 38, 39, 40, 41], landmarks)
             gaze_ratio_right_eye = get_gaze_ratio([42, 43, 44, 45, 46, 47], landmarks)
 
+            # Média da ratio da direção dos olhos
             gaze_ratio = (gaze_ratio_left_eye + gaze_ratio_right_eye) / 2
 
             if gaze_ratio <= 1:
@@ -268,6 +273,7 @@ while True:
             light = False
         letter(i, keys_set_1[i], light)
 
+    # Configurações da Caixa de Texto
     text_box_x = 0
     text_box_y = keyboard_height - 100
 
